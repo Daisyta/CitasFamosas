@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block titulo %}INDEX USUARIO{% endblock %}
+
+{% block contenido %}
+<h1>Bienvenid@: {{request.session.usuario.nombre}}  {{request.session.usuario.apellido}}</h1>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+        <p>Posteado por  <a href="#" class="card-link">Another link</a></p>
+
+        <p>A x cantidad de usuarios les gusta  <i class="far fa-thumbs-up"></i><button href="#" class="btn-primary rounded-pill">Another link</button></p>
+    </div>
+</div>
+<a href="/logout">SALIR DEL SISTEMA</a>
+
+{% endblock %}
+
+{% block libreria %}
+{% endblock %}
