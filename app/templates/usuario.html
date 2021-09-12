@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block titulo %}REGISTRO USUARIO{% endblock %}
+
+{% block contenido %}
+
+<h1 class=" my-5">{{perfil.nombre}} {{perfil.apellido}} Quotes</h1>
+<div>
+  {% for quote in perfil_quotes %}
+  <figure class="text-center border border-5 my-5">
+    <blockquote class="blockquote">
+      <p>{{quote.contenido_cita}}</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      {{cita.autor}}<cite title="Source Title"></cite>
+    </figcaption>
+  </figure>
+</div>
+  
+
+  {% endfor %}
+
+{% endblock %}
+
+{% block libreria %}
+
+
+{% endblock %}

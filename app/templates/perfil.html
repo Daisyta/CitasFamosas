@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{% endblock %}
+
+{% block contenido %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-5">
+      <h1>Editar perfil</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="editar_nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="editar_nombre" value="{{request.session.register_nombre}}">
+        </div>
+        <div class="mb-3">
+          <label for="editar_apellido" class="form-label">Apellido</label>
+          <input type="text" class="form-control" id="apellido" name="editar_apellido" value="{{request.session.register_apellido}}">
+        </div>
+
+        <div class="mb-3">
+          <label for="editar_email" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email" name="editar_email" value="{{request.session.register_email}}">
+        </div>
+        <input type="hidden" name="role" value="user">
+        <!--
+        <div class="mb-3">
+          <label for="role" class="form-label">Rol</label>
+          <select name="role" id="role">
+            <option value="user">Usuario Normal</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+        -->
+
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+      </form>
+    </div>
+  </div>
+
+
+{% endblock %}

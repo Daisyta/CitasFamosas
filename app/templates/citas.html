@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block titulo %}Quote Dashboard{% endblock %}
+
+{% block contenido %}
+
+<div class="container">
+<div class="row">
+
+<div class="col">
+<h3>Bienvenid@ {{request.session.usuario.nombre}} {{request.session.usuario.apellido}}</h2>
+
+<h2>Quotes</h2>
+<div class="">
+  {% for cita in citas %}
+  <figure class="text-center border border-5">
+    <blockquote class="blockquote">
+      <p>{{quote.contenido_cita}}</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      {{quote.autor}}<cite title="Source Title"></cite>
+    </figcaption>
+    <p>Posted By <a href="/user/{{quote.citado_por.id}}/">{{quote.citado_por.name}} {{quote.citado_por.last_name}}</a></p>
+    <p>Cantidad likes: {{quote.like.count}} - <a href="/add_like/{{quote.id}}/">Like</a></p>
+      {%if quote.citado_por.id == request.session.usuario.id %}
+      <a href="/add_like/{{quote.id}}/">Delete</a>
+      {% endif %}
+
+  </figure>
+  {% endfor %}
+</div>
+
+
+</div>
+
+{% endblock %}

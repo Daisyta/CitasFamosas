@@ -30,6 +30,18 @@ class UsuarioManager(models.Manager):
         
         return errors
 
+    
+    def validador_edit(self, postData):
+        
+        errors = {}
+        if postData['editar_nombre'] =='' or postData['editar_apellido'] =='' or postData['editar_email'] =='':
+            errors['edit_campos'] = " los campos no pueden estar vacios"
+        
+        if User.objects.filter(email= postData['editar_email']).exclude(email=postData['editar_email']).exists():
+            errors['email_existe'] = " El email que ingresaste ya existe"
+        
+        return errors
+
 
 class Usuario(models.Model):
     CHOICES = (
@@ -51,24 +63,43 @@ class Usuario(models.Model):
         return f"{self.nombre} {self.apellido}"
         
 class CitaManager(models.Manager):
-	def añadircita(self, contenido_cita, enviada_por, recibida_por):
-		if len(contenido_cita) > 0:
-                    cita =  Cita.objects.create(
-                            contenido_cita=contenido_cita,
-                            enviada_por_id=enviada_por,
-                            recibida_por_id=recibida_por,
-                    )
-                    return cita
-		else:
-                    return "La cita no puede estar en blanco!"
 
-#una cita: quien la hace,la cita misma,quien la cita
+    def validacioncita(self, postData):
+        
+        errors = {}
+
+        if len(postData['autor']) < 3:
+            errors['autor'] = "El campo autor debe ser mayor a 3 caracteres"
+        
+        if len(postData['quote_text']) < 10:
+            errors['cita_text'] = "El campo cita debe ser mayor a 10 caracteres"
+        
+        return errors
+
+
+	# def validacionañadircita(self, contenido_cita, enviada_por, recibida_por):
+
+    #     errors = {}
+
+	# 	if len(contenido_cita) > 0:
+    #                 cita =  Cita.objects.create(
+    #                         contenido_cita=contenido_cita,
+    #                         enviada_por_id=enviada_por,
+    #                         recibida_por_id=recibida_por,
+    #                 )
+    #                 return cita
+	# 	else:
+    #                 return "La cita no puede estar en blanco!"
+
+#una cita: quien la hace,la cita misma,quien la cita,quien le da likes
 #un usuario puede hacer varias citas,por eso,es uno a muchos
 # mi cita quoteada yo la puedo borrar,por eso el ondelete
+#la cita puede tener likes
 class Cita(models.Model):
     autor = models.CharField(max_length=255) 
-    cita = models.CharField(max_length=255)
-    #citado_por = models.ForeignKey("Usuario", related_name="Micitaquoteada")
+    contenido_cita = models.CharField(max_length=255)
+    citado_por = models.ForeignKey("Usuario", related_name="Micitaquoteada",on_delete=models.CASCADE)
+    like = models.ManyToManyField("Usuario", related_name="likes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
     objects = CitaManager()
